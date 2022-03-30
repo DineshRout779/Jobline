@@ -1,18 +1,32 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { applicants } from '../../data';
 import Loader from '../../components/Loader';
+import axios from 'axios';
+import { api } from '../../backend/api';
+import { useAppContext } from '../../context/AppContext';
 
 const ApplicantDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { dispatch } = useAppContext();
   const [applicant, setApplicant] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('user');
+    navigate('/', { replace: true });
+  };
+
   useEffect(() => {
-    const fetchApplicant = () => {
-      const applicant = applicants.find((item) => item.id === parseInt(id));
-      setApplicant(applicant);
-      setIsLoading(false);
+    const fetchApplicant = async () => {
+      try {
+        const res = await axios.get(`${api}/applicant/${id}`);
+        setApplicant(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response);
+      }
     };
 
     const timeout = setTimeout(() => {
@@ -35,11 +49,16 @@ const ApplicantDetails = () => {
             <strong>Email:</strong> {applicant.email}
           </p>
           <p>
-            <strong>Description:</strong> {applicant.desc}
+            <strong>Description:</strong> {applicant.desc || 'No Description'}
           </p>
           <p>
-            <strong>Location:</strong> {applicant.location}
+            <strong>Location:</strong> {applicant.location || 'No Location'}
           </p>
+          <br />
+          <br />
+          <button className='btn m-0' onClick={handleLogout}>
+            Logout
+          </button>
         </>
       )}
     </div>
