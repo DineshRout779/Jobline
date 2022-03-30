@@ -1,28 +1,35 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { api } from '../../backend/api';
 import Loader from '../../components/Loader';
-import { companies } from '../../data';
+import { useAppContext } from '../../context/AppContext';
 
 const CompanyDetails = () => {
+  const { dispatch } = useAppContext();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [company, setCompany] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('user');
+    navigate('/', { replace: true });
+  };
+
   useEffect(() => {
-    const fetchCompany = () => {
-      const company = companies.find((item) => item.id === parseInt(id));
-      setCompany(company);
-      setIsLoading(false);
+    const fetchCompany = async () => {
+      try {
+        const res = await axios.get(`${api}/company/${id}`);
+        setCompany(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response);
+      }
     };
 
-    const timeout = setTimeout(() => {
-      fetchCompany();
-    }, 2000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    fetchCompany();
   }, [id]);
 
   return (
@@ -56,6 +63,11 @@ const CompanyDetails = () => {
               );
             })}
           </ul>
+          <br />
+          <br />
+          <button className='btn m-0' onClick={handleLogout}>
+            Logout
+          </button>
         </>
       )}
     </div>
