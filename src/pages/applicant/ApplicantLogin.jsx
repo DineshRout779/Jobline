@@ -1,6 +1,51 @@
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../../backend/api';
+import { useAppContext } from '../../context/AppContext';
 
 const ApplicantLogin = () => {
+  const { state, dispatch } = useAppContext();
+  const { user, isApplicant } = state;
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+  // const [isLoading, setIsLoading] = useState(false);
+  const { email, password } = values;
+
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      const res = await axios.post(`${api}/auth/login/company`, values);
+      if (res.data.user) {
+        dispatch({ type: 'LOGIN', payload: res.data.user });
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error.response);
+      setError(error.response.data.error);
+    }
+  };
+
+  useEffect(() => {
+    user
+      ? isApplicant
+        ? navigate('/applicant')
+        : navigate('/company')
+      : navigate('/applicant/login');
+  }, [user, isApplicant, navigate]);
+
   return (
     <div className='container flex justify-center align-center flex-column min-h-90'>
       <div className='text-center my-1'>
@@ -8,23 +53,29 @@ const ApplicantLogin = () => {
         <p className='m-0'>as an applicant</p>
       </div>
 
-      <form className='form'>
+      <form className='form' onSubmit={handleSubmit}>
         <div className='form-group'>
           <label htmlFor='email'>Email Address</label>
           <input
             type='email'
+            name='email'
             id='email'
             className='form-control'
             placeholder='Enter Email'
+            value={email}
+            onChange={handleChange}
           />
         </div>
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
           <input
             type='password'
+            name='password'
             id='password'
             className='form-control'
             placeholder='Enter Password'
+            value={password}
+            onChange={handleChange}
           />
         </div>
         <div className='form-group my-1'>
@@ -34,6 +85,7 @@ const ApplicantLogin = () => {
             className='form-control btn btn-submit m-0'
           />
         </div>
+        <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
       </form>
       <p className='text-center'>
         Login as a Company? <Link to='/company/login'>Login</Link>
