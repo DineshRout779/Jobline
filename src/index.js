@@ -14,8 +14,8 @@ import ApplicantDetails from './pages/applicant/ApplicantDetails';
 import ApplicantLogin from './pages/applicant/ApplicantLogin';
 import ApplicantRegister from './pages/applicant/ApplicantRegister';
 import AddJob from './pages/job/AddJob';
-import JobList from './pages/job/JobList';
 import Job from './pages/job/Job';
+import Jobs from './pages/job/Jobs';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,7 +37,7 @@ ReactDOM.render(
               <Route path='register' element={<ApplicantRegister />} />
             </Route>
             <Route path='jobs'>
-              <Route index element={<JobList />} />
+              <Route index element={<Jobs />} />
               <Route path=':id' element={<Job />} />
               <Route path='add' element={<AddJob />} />
             </Route>

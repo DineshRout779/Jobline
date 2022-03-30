@@ -13,8 +13,8 @@ const Navbar = () => {
             <h2>Jobify</h2>
           </Link>
           <div className='flex align-center'>
-            <Link to='/jobs'>All Jobs</Link>
-            {isApplicant && <Link to='/applied'>Applied</Link>}
+            {user && <Link to='/jobs'>All Jobs</Link>}
+            {user && isApplicant && <Link to='/applied'>Applied</Link>}
             {!user && (
               <>
                 <Link to='/applicant/login' className='btn'>
@@ -25,12 +25,18 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <Link
-              to={isApplicant ? `/applicant/${user.id}` : `/company/${user.id}`}
-              className='btn btn-avatar'
-            >
-              {user.name.charAt(0)}
-            </Link>
+            {user && (
+              <Link
+                to={
+                  isApplicant
+                    ? `/applicant/${user._id}`
+                    : `/company/${user._id}`
+                }
+                className='btn btn-avatar'
+              >
+                {user.name.charAt(0)}
+              </Link>
+            )}
           </div>
         </nav>
       </div>

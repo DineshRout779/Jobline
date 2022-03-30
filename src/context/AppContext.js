@@ -1,39 +1,13 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { jobs } from '../data';
 import reducers from './reducers';
+import { jobs } from '../data';
 
 const AppContext = createContext();
 
 const INITIAL_STATE = {
-  user: {
-    id: 1,
-    name: 'Amazon',
-    email: 'amazon@gmail.com',
-    desc: 'A frontend web developer',
-    jobs: [
-      {
-        id: 4,
-        title: 'Full Stack Web Developer',
-        company: 'BigBinary',
-        position: 'Senior Software Enginner',
-        jobType: 'Full-time',
-        applicants: [],
-        location: 'remote',
-      },
-      {
-        id: 5,
-        title: 'Front End Web Developer',
-        company: 'Netflix',
-        position: 'Junior Software Enginner',
-        jobType: 'Full-time',
-        applicants: [],
-        location: 'remote',
-      },
-    ],
-    location: 'Los Angeles, CA',
-  },
+  user: JSON.parse(localStorage.getItem('user')) || null,
   error: false,
-  isApplicant: false,
+  isApplicant: true,
   jobs: [...jobs],
 };
 
@@ -41,10 +15,18 @@ export const AppContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducers, INITIAL_STATE);
 
   useEffect(() => {
-    if (state.user.hasOwnProperty('jobs')) {
-      dispatch({ type: 'USER_TYPE_COMPANY' });
-    } else {
-      dispatch({ type: 'USER_TYPE_APPLICANT' });
+    if (state.user) {
+      if (!state.user.hasOwnProperty('jobs')) {
+        dispatch({ type: 'USER_TYPE_APPLICANT' });
+      } else {
+        dispatch({ type: 'USER_TYPE_COMPANY' });
+      }
+    }
+
+    if (state.user) {
+      if (!JSON.parse(localStorage.getItem('user'))) {
+        localStorage.setItem('user', JSON.stringify(state.user));
+      }
     }
   }, [state.user]);
 
