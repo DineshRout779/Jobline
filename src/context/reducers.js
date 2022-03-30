@@ -5,6 +5,11 @@ const reducers = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case 'LOGOUT':
+      return {
+        ...state,
+        user: null,
+      };
     case 'USER_TYPE_APPLICANT':
       return {
         ...state,
