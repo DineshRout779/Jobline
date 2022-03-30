@@ -6,11 +6,15 @@ import { useEffect } from 'react';
 const Welcome = () => {
   const { state } = useAppContext();
   const navigate = useNavigate();
-  const { user } = state;
+  const { user, isApplicant } = state;
 
   useEffect(() => {
-    user && navigate('/jobs');
-  }, [user, navigate]);
+    user
+      ? isApplicant
+        ? navigate('/applicant')
+        : navigate('/company')
+      : navigate('/applicant/login');
+  }, [user, isApplicant, navigate]);
 
   return (
     <div className='container flex justify-center align-center flex-column min-h-90'>
