@@ -1,5 +1,8 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../backend/api';
+import ButtonSpinner from '../../components/ButtonSpinner';
 import { useAppContext } from '../../context/AppContext';
 
 const AddJob = () => {
@@ -9,11 +12,13 @@ const AddJob = () => {
   const [values, setValues] = useState({
     id: Date.now(),
     title: '',
-    company: user.name,
+    company: user._id,
     position: '',
     jobType: '',
     location: '',
   });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { title, position, jobType, location } = values;
 
@@ -24,10 +29,21 @@ const AddJob = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: 'ADD_JOB', payload: values });
-    navigate('/jobs');
+    setError('');
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${api}/job/${user._id}`, values);
+      setIsLoading(false);
+      dispatch({ type: 'ADD_JOB', payload: res.data });
+      navigate('/company');
+    } catch (error) {
+      setIsLoading(false);
+
+      console.log(error.response);
+      setError(error.response.data.error);
+    }
   };
 
   return (
@@ -64,8 +80,8 @@ const AddJob = () => {
             name='jobType'
             id='jobType'
             className='form-control'
-            value={jobType}
             onChange={handleChange}
+            value={jobType}
           >
             <option value='full-time'>Full-time</option>
             <option value='part-time'>Part-time</option>
@@ -85,12 +101,11 @@ const AddJob = () => {
           />
         </div>
         <div className='form-group my-1'>
-          <input
-            type='submit'
-            value='Post'
-            className='form-control btn btn-submit m-0'
-          />
+          <button className='form-control btn btn-submit m-0' type='submit'>
+            {isLoading ? <ButtonSpinner /> : 'Register'}
+          </button>
         </div>
+        <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
       </form>
     </div>
   );
