@@ -20,6 +20,11 @@ const reducers = (state, action) => {
         ...state,
         isApplicant: false,
       };
+    case 'FETCH_JOBS':
+      return {
+        ...state,
+        jobs: action.payload,
+      };
     case 'ADD_JOB':
       return {
         ...state,
