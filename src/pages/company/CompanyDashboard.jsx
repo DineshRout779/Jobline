@@ -19,7 +19,7 @@ const CompanyDashboard = () => {
 
   return (
     <div className='container'>
-      <h1>Welcome {user?.name}</h1>
+      <h2>Hello, {user?.name}!</h2>
       <div className='flex justify-between align-center my-1'>
         <h3>{isApplicant ? 'All Jobs' : 'Jobs Posted'}</h3>
         {!isApplicant && (

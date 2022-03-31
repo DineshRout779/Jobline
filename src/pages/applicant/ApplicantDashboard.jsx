@@ -18,7 +18,7 @@ const ApplicantDashboard = () => {
 
   return (
     <div className='container'>
-      <h1>Hello, {user?.name}</h1>
+      <h2>Hello, {user?.name}!</h2>
       <JobList />
     </div>
   );
