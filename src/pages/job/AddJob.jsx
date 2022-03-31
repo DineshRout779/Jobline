@@ -102,7 +102,7 @@ const AddJob = () => {
         </div>
         <div className='form-group my-1'>
           <button className='form-control btn btn-submit m-0' type='submit'>
-            {isLoading ? <ButtonSpinner /> : 'Register'}
+            {isLoading ? <ButtonSpinner /> : 'Post'}
           </button>
         </div>
         <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
