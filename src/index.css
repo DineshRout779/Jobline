@@ -173,6 +173,10 @@ label {
   text-align: center;
 }
 
+.btn + .btn {
+  margin-left: 1em;
+}
+
 .btn:hover {
   background-color: var(--hover-blue);
   border-color: var(--hover-blue);
@@ -237,6 +241,20 @@ label {
   border-top-color: #fff;
   width: 1em;
   height: 1em;
+}
+
+/* modal */
+.modal {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1em;
+  width: fit-content;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }
 
 @keyframes spin {
