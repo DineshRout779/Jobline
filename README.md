@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+Backend of this project can be found [here](https://github.com/DineshRout779/Job-Portal-Backend).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
