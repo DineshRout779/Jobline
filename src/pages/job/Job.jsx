@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
-import { jobs } from '../../data';
+import axios from 'axios';
+import { api } from '../../backend/api';
 
 const Job = () => {
   const { id } = useParams();
@@ -9,19 +10,18 @@ const Job = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchJob = () => {
-      const job = jobs.find((item) => item.id === parseInt(id));
-      setJob(job);
-      setIsLoading(false);
+    const fetchJob = async () => {
+      try {
+        const res = await axios.get(`${api}/job/${id}`);
+        setJob(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error.response);
+      }
     };
 
-    const timeout = setTimeout(() => {
-      fetchJob();
-    }, 2000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    fetchJob();
   }, [id]);
 
   return (
@@ -32,7 +32,7 @@ const Job = () => {
         <>
           <h2>{job.title}</h2>
           <p>
-            <strong>Company:</strong> {job.company}
+            <strong>Company:</strong> {job.company.name}
           </p>
           <p>
             <strong>Position:</strong> {job.position}
