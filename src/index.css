@@ -232,6 +232,13 @@ label {
   animation: spin 0.5s linear infinite;
 }
 
+.loader-button {
+  border: 2px solid transparent;
+  border-top-color: #fff;
+  width: 1em;
+  height: 1em;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
