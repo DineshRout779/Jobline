@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-const Modal = forwardRef((rpops, ref) => (
+const Modal = forwardRef((props, ref) => (
   <div className='modal' ref={ref}>
     <h3>Are you sure? </h3>
     <div className='flex align-center'>
