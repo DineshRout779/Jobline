@@ -83,7 +83,7 @@ const Job = () => {
             </ol>
           )}
 
-          <div>
+          <div className='my-1'>
             {isApplicant && (
               <button className='btn m-0' onClick={handleApplyJob}>
                 {isApplied ? (
