@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import reducers from './reducers';
-import { jobs } from '../data';
 
 const AppContext = createContext();
 
@@ -8,7 +7,7 @@ const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   error: false,
   isApplicant: true,
-  jobs: [...jobs],
+  jobs: [],
 };
 
 export const AppContextProvider = ({ children }) => {
