@@ -5,10 +5,11 @@ import { api } from '../backend/api';
 import { useEffect, useRef, useState } from 'react';
 import Loader from '../components/Loader';
 import Modal from './Modal';
+import { MdDone } from 'react-icons/md';
 
 const JobList = () => {
   const { state, dispatch } = useAppContext();
-  const { jobs } = state;
+  const { jobs, user, isApplicant } = state;
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const ref = useRef();
@@ -55,9 +56,19 @@ const JobList = () => {
               <li key={job._id} className='job'>
                 <div className='flex justify-between align-center'>
                   <h3 className='m-0'>{job.title}</h3>
-                  <button className='btn m-0' onClick={handleToggleModal}>
-                    Apply Now
-                  </button>
+                  {isApplicant && (
+                    <button className='btn m-0' onClick={handleToggleModal}>
+                      {job.applicants.find(
+                        (applicant) => applicant._id === user._id
+                      ) ? (
+                        <>
+                          Applied <MdDone />{' '}
+                        </>
+                      ) : (
+                        'Apply Now'
+                      )}
+                    </button>
+                  )}
                 </div>
                 <p>
                   <strong>Company: </strong>
