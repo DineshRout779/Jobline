@@ -83,21 +83,23 @@ const Job = () => {
             </ol>
           )}
 
-          {isApplicant && (
-            <button className='btn m-0' onClick={handleApplyJob}>
-              {isApplied ? (
-                <>
-                  Applied <MdDone />
-                </>
-              ) : isAppling ? (
-                <>
-                  Applying <ButtonSpinner />
-                </>
-              ) : (
-                'Apply now'
-              )}
-            </button>
-          )}
+          <div>
+            {isApplicant && (
+              <button className='btn m-0' onClick={handleApplyJob}>
+                {isApplied ? (
+                  <>
+                    Applied <MdDone />
+                  </>
+                ) : isAppling ? (
+                  <>
+                    Applying <ButtonSpinner />
+                  </>
+                ) : (
+                  'Apply now'
+                )}
+              </button>
+            )}
+          </div>
         </>
       )}
     </div>
