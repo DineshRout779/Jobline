@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../backend/api';
+import ButtonSpinner from '../../components/ButtonSpinner';
 import { useAppContext } from '../../context/AppContext';
 
 const CompanyLogin = () => {
@@ -13,7 +14,7 @@ const CompanyLogin = () => {
     password: '',
   });
   const [error, setError] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { email, password } = values;
 
   const handleChange = (e) => {
@@ -26,13 +27,16 @@ const CompanyLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
     try {
       const res = await axios.post(`${api}/auth/login/company`, values);
       if (res.data.user) {
+        setIsLoading(false);
         dispatch({ type: 'LOGIN', payload: res.data.user });
         navigate('/');
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error.response);
       setError(error.response.data.error);
     }
@@ -79,11 +83,9 @@ const CompanyLogin = () => {
           />
         </div>
         <div className='form-group my-1'>
-          <input
-            type='submit'
-            value='Login'
-            className='form-control btn btn-submit m-0'
-          />
+          <button className='form-control btn btn-submit m-0' type='submit'>
+            {isLoading ? <ButtonSpinner /> : 'Login'}
+          </button>
         </div>
         <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
       </form>
