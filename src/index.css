@@ -123,6 +123,10 @@ a.btn-rev {
   list-style-type: none;
 }
 
+.applicant-list {
+  padding: 1em;
+}
+
 .job {
   padding: 1em;
   margin: 1em 0;
@@ -237,6 +241,7 @@ label {
 }
 
 .loader-button {
+  margin: 0 8px;
   border: 2px solid transparent;
   border-top-color: #fff;
   width: 1em;
