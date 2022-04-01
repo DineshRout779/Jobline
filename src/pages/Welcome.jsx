@@ -13,13 +13,13 @@ const Welcome = () => {
       ? isApplicant
         ? navigate('/applicant')
         : navigate('/company')
-      : navigate('/applicant/login');
+      : navigate('/');
   }, [user, isApplicant, navigate]);
 
   return (
     <div className='container flex justify-center align-center flex-column min-h-90'>
       <img src='./images/welcome.svg' className='img-svg' alt='welcome' />
-      <h1>Welcome to Jobify</h1>
+      <h1>Welcome to Jobline</h1>
       <div className='text-center flex'>
         <Link to='applicant/login' className='btn'>
           Login

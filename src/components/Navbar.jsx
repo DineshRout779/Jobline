@@ -10,7 +10,7 @@ const Navbar = () => {
       <div className='container'>
         <nav className='nav flex align-center justify-between'>
           <Link to='/' className='logo'>
-            <h2>Jobify</h2>
+            <h2>Jobline</h2>
           </Link>
           <div className='flex align-center'>
             {user && <Link to='/jobs'>All Jobs</Link>}
